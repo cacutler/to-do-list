@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpStatus, HttpCode} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpStatus, HttpCode, Put} from '@nestjs/common';
 import {TodosService} from './todos.service';
 import {CreateTodoDto} from './dto/create-todo.dto';
 import {UpdateTodoDto} from './dto/update-todo.dto';
@@ -19,6 +19,10 @@ export class TodosController {
   }
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateTodoDto: UpdateTodoDto) {
+    return this.todosService.update(id, updateTodoDto);
+  }
+  @Put(':id')
+  updatePut(@Param('id', ParseIntPipe) id: number, @Body() updateTodoDto: UpdateTodoDto) {
     return this.todosService.update(id, updateTodoDto);
   }
   @Delete(':id')

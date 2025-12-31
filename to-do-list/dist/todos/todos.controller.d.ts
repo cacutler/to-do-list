@@ -36,6 +36,14 @@ export declare class TodosController {
         createdAt: Date;
         updatedAt: Date;
     }>;
+    updatePut(id: number, updateTodoDto: UpdateTodoDto): Promise<{
+        title: string;
+        description: string | null;
+        completed: boolean;
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
     remove(id: number): Promise<{
         title: string;
         description: string | null;

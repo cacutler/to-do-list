@@ -34,6 +34,9 @@ let TodosController = class TodosController {
     update(id, updateTodoDto) {
         return this.todosService.update(id, updateTodoDto);
     }
+    updatePut(id, updateTodoDto) {
+        return this.todosService.update(id, updateTodoDto);
+    }
     remove(id) {
         return this.todosService.remove(id);
     }
@@ -67,6 +70,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, update_todo_dto_1.UpdateTodoDto]),
     __metadata("design:returntype", void 0)
 ], TodosController.prototype, "update", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_todo_dto_1.UpdateTodoDto]),
+    __metadata("design:returntype", void 0)
+], TodosController.prototype, "updatePut", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
