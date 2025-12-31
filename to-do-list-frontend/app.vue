@@ -21,18 +21,20 @@
     />
     
     <!-- Modal -->
-    <Modal
-      :is-open="isModalOpen"
-      :title="modalTitle"
-      @close="closeModal"
-    >
-      <TodoForm
-        :todo?="selectedTodo"
-        :mode="formMode"
-        @submit="handleSubmit"
-        @cancel="closeModal"
-      />
-    </Modal>
+    <ClientOnly>
+      <Modal
+        :is-open="isModalOpen"
+        :title="modalTitle"
+        @close="closeModal"
+      >
+        <TodoForm
+          :todo="selectedTodo"
+          :mode="formMode"
+          @submit="handleSubmit"
+          @cancel="closeModal"
+        />
+      </Modal>
+    </ClientOnly>
   </div>
 </template>
 
@@ -45,7 +47,7 @@ console.log("todos from useTodos:", todos)
 console.log("todos.value initial:", todos.value)
 console.log("todos is ref?", isRef(todos))
 const isModalOpen = ref(false)
-const selectedTodo = ref<Todo | null>(null)
+const selectedTodo = ref<Todo | undefined>(undefined)
 const filters = ref<TodoFilters>({})
 const searchTerm = ref('')
 // Computed
@@ -72,13 +74,13 @@ const filteredTodos = computed(() => {
 
 // Methods
 const openModal = () => {
- selectedTodo.value = null
+ selectedTodo.value = undefined
  isModalOpen.value = true
 }
 
 const closeModal = () => {
  isModalOpen.value = false
- selectedTodo.value = null
+ selectedTodo.value = undefined
 }
 
 const editTodo = (todo: Todo) => {
@@ -89,11 +91,15 @@ const editTodo = (todo: Todo) => {
 const deleteTodo = async (id: string) => {
  if (confirm('Are you sure you want to delete this todo?')) {
    await removeTodo(id)
+   // Refresh the todo list
+   await fetchTodos()
  }
 }
 
 const toggleComplete = async (id: string, completed: boolean) => {
  await updateTodo(id, { completed })
+ // Refresh the todo list
+ await fetchTodos()
 }
 
 const handleSubmit = async (data: any) => {
@@ -104,6 +110,8 @@ const handleSubmit = async (data: any) => {
      await createTodo(data)
    }
    closeModal()
+   // Refresh the todo list to ensure it's up to date
+   await fetchTodos()
  } catch (error) {
    console.error('Error saving todo:', error)
  }

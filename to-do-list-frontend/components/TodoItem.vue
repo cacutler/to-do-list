@@ -1,7 +1,7 @@
 <template>
   <div class="todo-item" :class="{ completed: todo.completed }">
     <div class="todo-header">
-      <div class="todo-content">
+      <div class="todo-content" @click="$emit('edit')">
         <h3 class="todo-title">{{ todo.title }}</h3>
         <p v-if="todo.description" class="todo-description">{{ todo.description }}</p>
       </div>
@@ -9,14 +9,14 @@
         <div 
           class="checkbox" 
           :class="{ checked: todo.completed }"
-          @click="$emit('toggle-complete')"
+          @click.stop="$emit('toggle-complete')"
         >
           <i v-if="todo.completed" class="fas fa-check"></i>
         </div>
-        <button class="action-btn edit-btn" @click="$emit('edit')" title="Edit">
+        <button class="action-btn edit-btn" @click.stop="$emit('edit')" title="Edit">
           <i class="fas fa-edit"></i>
         </button>
-        <button class="action-btn delete-btn" @click="$emit('delete')" title="Delete">
+        <button class="action-btn delete-btn" @click.stop="$emit('delete')" title="Delete">
           <i class="fas fa-trash"></i>
         </button>
       </div>

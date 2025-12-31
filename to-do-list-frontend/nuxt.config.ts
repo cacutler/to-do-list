@@ -13,5 +13,6 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: 'http://localhost:3001'
     }
-  }
+  },
+  css: ['@fortawesome/fontawesome-free/css/all.css']
 })
